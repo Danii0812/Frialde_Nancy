@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nancy Frialde — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── TOKENS: LinkedIn-inspired palette ── */
+    :root {
+      --bg:         #F3F2EF;
+      --bg-alt:     #FFFFFF;
+      --surface:    #FFFFFF;
+      --border:     #E0DFDC;
+      --blue:       #0A66C2;
+      --blue-dk:    #004182;
+      --blue-lt:    #378FE9;
+      --blue-muted: #EAF0F9;
+      --ink:        #191919;
+      --ink-2:      #3D3D3D;
+      --ink-3:      #767676;
+      --nav-bg:     rgba(243,242,239,0.95);
+      --card-bg:    #FFFFFF;
+      --shadow:     0 0 0 1px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-lg:  0 0 0 1px rgba(0,0,0,0.10), 0 8px 28px rgba(0,0,0,0.12);
+      --radius:     8px;
+      --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    [data-theme="dark"] {
+      --bg:         #1B1F23;
+      --bg-alt:     #24292F;
+      --surface:    #24292F;
+      --border:     #30363D;
+      --blue:       #4493F8;
+      --blue-dk:    #1F6FEB;
+      --blue-lt:    #79C0FF;
+      --blue-muted: #1C2C42;
+      --ink:        #E6EDF3;
+      --ink-2:      #8B949E;
+      --ink-3:      #6E7681;
+      --nav-bg:     rgba(27,31,35,0.96);
+      --card-bg:    #24292F;
+      --shadow:     0 0 0 1px rgba(255,255,255,0.06), 0 2px 12px rgba(0,0,0,0.4);
+      --shadow-lg:  0 0 0 1px rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.55);
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      transition: background var(--transition), color var(--transition);
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--blue); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--blue-lt); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .nav-inner {
+      max-width: 1128px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-size: 1.05rem; font-weight: 700; color: var(--blue);
+      letter-spacing: -0.01em;
+    }
+    .nav-links { display: flex; gap: 0; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.02em;
+      color: var(--ink-2); padding: 8px 14px; border-radius: 4px;
+      transition: all var(--transition); white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--blue); background: var(--blue-muted); }
+    .theme-btn {
+      background: transparent; border: 1.5px solid var(--border);
+      border-radius: 6px; padding: 6px 12px;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+      font-size: 0.75rem; font-weight: 600; color: var(--ink-2);
+      transition: all var(--transition); font-family: inherit;
+    }
+    .theme-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-muted); }
+    .theme-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    /* ── SHARED SECTION ── */
+    section { padding: 72px 1.5rem; }
+    .alt-bg { background: var(--bg-alt); }
+    .section-inner { max-width: 1128px; margin: 0 auto; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 0.6rem;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 20px; height: 2px; background: var(--blue); border-radius: 2px;
+    }
+    h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700;
+      color: var(--ink); line-height: 1.15; letter-spacing: -0.02em;
+    }
+    .section-sub {
+      font-size: 0.93rem; color: var(--ink-2); margin-top: 0.5rem;
+      max-width: 520px; line-height: 1.7;
+    }
+    .section-hdr { margin-bottom: 2.5rem; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 96px 1.5rem 60px;
+      background: var(--bg-alt);
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: var(--border);
+    }
+    .hero-inner {
+      max-width: 1128px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .hero-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--blue);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;
+    }
+    .hero-label::before { content: ''; width: 20px; height: 2px; background: var(--blue); border-radius: 2px; }
+    h1 {
+      font-size: clamp(2.4rem, 4.5vw, 3.4rem); font-weight: 700;
+      line-height: 1.1; letter-spacing: -0.03em; color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    h1 .accent { color: var(--blue); }
+    .hero-sub {
+      font-size: 1rem; color: var(--ink-2); line-height: 1.75;
+      max-width: 460px; margin-bottom: 2rem;
+    }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+    .tag {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+      padding: 5px 12px; border-radius: 50px;
+      border: 1.5px solid var(--border); color: var(--ink-2);
+      background: var(--bg); transition: all var(--transition);
+    }
+    .tag:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-muted); }
+    .hero-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--blue); color: #fff;
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em;
+      padding: 11px 22px; border-radius: 50px;
+      transition: all var(--transition); box-shadow: 0 2px 10px rgba(10,102,194,0.25);
+    }
+    .btn-primary:hover { background: var(--blue-dk); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 18px rgba(10,102,194,0.35); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: transparent; color: var(--blue);
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em;
+      padding: 10px 22px; border-radius: 50px;
+      border: 1.5px solid var(--blue);
+      transition: all var(--transition);
+    }
+    .btn-secondary:hover { background: var(--blue-muted); }
+    .btn-primary svg, .btn-secondary svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+
+    /* hero stat panel */
+    .hero-panel {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.8rem; box-shadow: var(--shadow);
+    }
+    .panel-title {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-3); margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem; border-bottom: 1px solid var(--border);
+    }
+    .stat-row { display: flex; gap: 1rem; margin-bottom: 1rem; }
+    .stat-box {
+      flex: 1; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; text-align: center;
+      transition: all var(--transition);
+    }
+    .stat-box:hover { border-color: var(--blue); background: var(--blue-muted); }
+    .stat-n { font-size: 1.9rem; font-weight: 700; color: var(--blue); line-height: 1; }
+    .stat-l { font-size: 0.67rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin-top: 4px; }
+    .stat-full {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.2rem;
+      display: flex; align-items: center; gap: 12px;
+      transition: all var(--transition);
+    }
+    .stat-full:hover { border-color: var(--blue); background: var(--blue-muted); }
+    .stat-full-n { font-size: 1.5rem; font-weight: 700; color: var(--blue); }
+    .stat-full-info {}
+    .stat-full-l { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
+    .stat-full-s { font-size: 0.78rem; color: var(--ink-2); margin-top: 2px; }
+
+    /* ── WHAT I DO ── */
+    .wid-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem;
+    }
+    .wid-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.6rem 1.5rem;
+      box-shadow: var(--shadow); transition: all var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .wid-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--blue); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .wid-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+    .wid-card:hover::before { transform: scaleX(1); }
+    .wid-icon {
+      width: 44px; height: 44px; background: var(--blue-muted);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .wid-icon svg { width: 22px; height: 22px; stroke: var(--blue); fill: none; stroke-width: 1.8; }
+    .wid-card h3 { font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+    .wid-card p { font-size: 0.83rem; color: var(--ink-2); line-height: 1.7; }
+    .wid-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem; }
+    .wid-chip {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em;
+      padding: 3px 10px; border-radius: 50px;
+      background: var(--blue-muted); color: var(--blue); border: 1px solid rgba(10,102,194,0.2);
+    }
+
+    /* ── VIRTUAL ASSISTANT ── */
+    .va-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+    .va-intro p { font-size: 0.93rem; color: var(--ink-2); line-height: 1.8; margin-bottom: 1rem; }
+    .va-intro strong { color: var(--ink); font-weight: 600; }
+    .va-services { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .va-item {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.2rem;
+      box-shadow: var(--shadow); transition: all var(--transition);
+    }
+    .va-item:hover { border-color: var(--blue); box-shadow: var(--shadow-lg); }
+    .va-item-icon {
+      width: 36px; height: 36px; background: var(--blue-muted);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.7rem;
+    }
+    .va-item-icon svg { width: 18px; height: 18px; stroke: var(--blue); fill: none; stroke-width: 2; }
+    .va-item h4 { font-size: 0.88rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+    .va-item p { font-size: 0.78rem; color: var(--ink-2); line-height: 1.6; }
+    .va-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--blue); color: #fff;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 6px 14px; border-radius: 50px;
+      margin-top: 1.5rem;
+    }
+    .va-badge svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+
+    /* ── TOOLS ── */
+    .tools-cats { display: flex; flex-direction: column; gap: 1.6rem; }
+    .tool-cat-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-3);
+      margin-bottom: 0.8rem;
+    }
+    .tool-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tool-chip {
+      display: flex; align-items: center; gap: 7px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 7px 13px;
+      font-size: 0.8rem; font-weight: 500; color: var(--ink-2);
+      box-shadow: var(--shadow); transition: all var(--transition);
+    }
+    .tool-chip:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-muted); }
+    .tool-chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { font-size: 0.93rem; color: var(--ink-2); line-height: 1.85; margin-bottom: 1rem; }
+    .about-text strong { color: var(--blue); font-weight: 600; }
+    .contact-list { list-style: none; margin-top: 1.5rem; }
+    .contact-list li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.86rem; color: var(--ink-2);
+      padding: 9px 0; border-bottom: 1px solid var(--border);
+    }
+    .contact-list li svg { width: 15px; height: 15px; stroke: var(--blue); fill: none; stroke-width: 2; flex-shrink: 0; }
+    .skills-panel {}
+    .skills-panel h3 { font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.8rem; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 1.2rem 0; }
+    .skill-grid { display: flex; flex-wrap: wrap; gap: 7px; }
+    .skill-chip {
+      font-size: 0.73rem; font-weight: 500; padding: 5px 12px;
+      border-radius: 50px; border: 1px solid var(--border);
+      color: var(--ink-2); background: var(--bg);
+      transition: all var(--transition);
+    }
+    .skill-chip:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-muted); }
+    .skill-chip.hi { background: var(--blue-muted); border-color: rgba(10,102,194,0.3); color: var(--blue); font-weight: 600; }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 19px; top: 10px; bottom: 10px;
+      width: 1.5px; background: linear-gradient(to bottom, var(--blue), transparent);
+    }
+    .tl-item {
+      display: grid; grid-template-columns: 40px 1fr;
+      gap: 1.2rem; margin-bottom: 1.5rem; position: relative;
+    }
+    .tl-dot {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--card-bg); border: 2px solid var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; z-index: 1; box-shadow: 0 0 0 4px var(--bg);
+    }
+    .tl-dot svg { width: 16px; height: 16px; stroke: var(--blue); fill: none; stroke-width: 2; }
+    .tl-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.3rem 1.5rem;
+      box-shadow: var(--shadow); transition: all var(--transition);
+    }
+    .tl-card:hover { box-shadow: var(--shadow-lg); border-color: var(--blue); }
+    .tl-hdr { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.2rem; }
+    .tl-role { font-size: 1rem; font-weight: 700; color: var(--ink); }
+    .tl-co { font-size: 0.82rem; font-weight: 600; color: var(--blue); margin-top: 1px; }
+    .tl-date {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--ink-3);
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 3px 10px; border-radius: 50px; white-space: nowrap;
+    }
+    .tl-desc { margin-top: 0.7rem; font-size: 0.85rem; color: var(--ink-2); line-height: 1.75; }
+    .tl-desc ul { padding-left: 1.1rem; margin-top: 0.4rem; }
+    .tl-desc ul li { margin-bottom: 0.3rem; }
+    .wins { margin-top: 0.9rem; }
+    .wins-lbl { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.4rem; }
+    .wins-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .win { font-size: 0.73rem; font-weight: 600; background: var(--blue-muted); color: var(--blue); border: 1px solid rgba(10,102,194,0.2); padding: 3px 10px; border-radius: 50px; }
+
+    /* ── CERTS ── */
+    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+    .cert-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); transition: all var(--transition); cursor: pointer;
+    }
+    .cert-card:hover { box-shadow: var(--shadow-lg); border-color: var(--blue); transform: translateY(-3px); }
+    .cert-img-wrap {
+      width: 100%; aspect-ratio: 4/3; overflow: hidden;
+      background: var(--bg); position: relative;
+    }
+    .cert-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .cert-card:hover .cert-img-wrap img { transform: scale(1.05); }
+    .cert-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; color: var(--ink-3);
+    }
+    .cert-placeholder svg { width: 32px; height: 32px; stroke: var(--blue); fill: none; stroke-width: 1.5; opacity: 0.5; }
+    .cert-placeholder span { font-size: 0.7rem; letter-spacing: 0.06em; }
+    .cert-info { padding: 0.9rem 1.1rem; }
+    .cert-org { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 3px; }
+    .cert-name { font-size: 0.86rem; font-weight: 500; color: var(--ink); line-height: 1.4; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .lightbox.active { opacity: 1; pointer-events: all; }
+    .lightbox-img { max-width: 90vw; max-height: 85vh; border-radius: 8px; box-shadow: 0 24px 80px rgba(0,0,0,0.7); }
+    .lb-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: rgba(255,255,255,0.12); border: none; border-radius: 50%;
+      width: 42px; height: 42px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.1rem; transition: background 0.2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.25); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 2.5rem 1.5rem; text-align: center;
+    }
+    .footer-inner { max-width: 1128px; margin: 0 auto; }
+    .footer-name { font-size: 1.3rem; font-weight: 700; color: var(--ink); }
+    .footer-name span { color: var(--blue); }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; list-style: none; margin: 1rem 0; }
+    .footer-links a { font-size: 0.78rem; color: var(--ink-3); transition: color var(--transition); }
+    .footer-links a:hover { color: var(--blue); }
+    .footer-note { font-size: 0.75rem; color: var(--ink-3); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .wid-grid { grid-template-columns: 1fr 1fr; }
+      .va-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .wid-grid { grid-template-columns: 1fr; }
+      .va-services { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    @media (prefers-reduced-motion: no-preference) {
+      .tl-item, .wid-card, .cert-card, .va-item, .tool-chip, .stat-box, .stat-full {
+        opacity: 0; transform: translateY(16px);
+        transition: opacity 0.45s ease, transform 0.45s ease,
+                    box-shadow var(--transition), border-color var(--transition), background var(--transition);
+      }
+      .tl-item.vis, .wid-card.vis, .cert-card.vis, .va-item.vis, .tool-chip.vis, .stat-box.vis, .stat-full.vis {
+        opacity: 1; transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Nancy Frialde</div>
+    <ul class="nav-links">
+      <li><a href="#what-i-do">What I Do</a></li>
+      <li><a href="#virtual-assistant">VA Services</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span id="themeLabel">Dark</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">Open to Opportunities</div>
+      <h1>Nancy<br><span class="accent">Frialde</span></h1>
+      <p class="hero-sub">
+        Operations strategist, project manager, and finance-trained professional — delivering end-to-end execution across e-commerce, supply chain, and virtual assistance.
+      </p>
+      <div class="hero-tags">
+        <span class="tag">Project Management</span>
+        <span class="tag">E-Commerce</span>
+        <span class="tag">Supply Chain</span>
+        <span class="tag">Pricing & Costing</span>
+        <span class="tag">Fintech</span>
+        <span class="tag">Virtual Assistance</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Get in Touch
+        </a>
+        <a href="https://linkedin.com/in/nancyfrialde" target="_blank" rel="noopener" class="btn-secondary">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <div class="panel-title">Career Highlights</div>
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-n">10+</div>
+          <div class="stat-l">Years Experience</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-n">40</div>
+          <div class="stat-l">Global Clients</div>
+        </div>
+      </div>
+      <div class="stat-full" style="margin-bottom:0.7rem;">
+        <div class="stat-full-n">$13K</div>
+        <div class="stat-full-info">
+          <div class="stat-full-l">Revenue Converted</div>
+          <div class="stat-full-s">First 4 months at Paking Duck</div>
+        </div>
+      </div>
+      <div class="stat-full" style="margin-bottom:0.7rem;">
+        <div class="stat-full-n">9,500+</div>
+        <div class="stat-full-info">
+          <div class="stat-full-l">Orders Fulfilled</div>
+          <div class="stat-full-s">TikTok Shop · Top 3% of Sellers</div>
+        </div>
+      </div>
+      <div class="stat-full">
+        <div class="stat-full-n">4.9★</div>
+        <div class="stat-full-info">
+          <div class="stat-full-l">Airbnb Superhost Rating</div>
+          <div class="stat-full-s">4 consecutive quarters · 100% response rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT I DO -->
+<section id="what-i-do" class="alt-bg">
+  <div class="section-inner">
+    <div class="section-hdr">
+      <div class="section-label">What I Do</div>
+      <h2>How I Add Value</h2>
+      <p class="section-sub">Six areas where my experience, training, and instincts converge to make a measurable difference.</p>
+    </div>
+    <div class="wid-grid">
+
+      <div class="wid-card">
+        <div class="wid-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 17h7m-3.5-3.5v7"/></svg>
+        </div>
+        <h3>Project Management</h3>
+        <p>End-to-end lifecycle ownership — from briefing and planning through execution, quality control, and delivery. I keep multi-stakeholder projects on time and on budget.</p>
+        <div class="wid-chips">
+          <span class="wid-chip">Scope & Planning</span>
+          <span class="wid-chip">Stakeholder Comms</span>
+          <span class="wid-chip">QA & Delivery</span>
+          <span class="wid-chip">Dashboard Reporting</span>
+        </div>
+      </div>
+
+      <div class="wid-card">
+        <div class="wid-icon">
+          <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <h3>E-Commerce Operations</h3>
+        <p>Full-funnel e-commerce management — product listing, merchandising, order fulfillment, logistics coordination, and customer satisfaction across Shopee and TikTok Shop.</p>
+        <div class="wid-chips">
+          <span class="wid-chip">Product Listing</span>
+          <span class="wid-chip">Order Fulfillment</span>
+          <span class="wid-chip">Logistics</span>
+          <span class="wid-chip">Brand Partnerships</span>
+        </div>
+      </div>
+
+      <div class="wid-card">
+        <div class="wid-icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg>
+        </div>
+        <h3>Pricing & Margin Analysis</h3>
+        <p>Finance-trained approach to quotations, service margins, and commercial viability assessments. I build pricing frameworks that protect profitability while staying competitive.</p>
+        <div class="wid-chips">
+          <span class="wid-chip">Quotation Mgmt</span>
+          <span class="wid-chip">Margin Tracking</span>
+          <span class="wid-chip">Costing</span>
+          <span class="wid-chip">Supplier Negotiation</span>
+        </div>
+      </div>
+
+      <div class="wid-card">
+        <div class="wid-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        </div>
+        <h3>Financial & Market Analysis</h3>
+        <p>Seven years of equity research at FactSet built my ability to interpret complex financial disclosures, validate data under US-GAAP and China Local-GAAP, and surface actionable insights.</p>
+        <div class="wid-chips">
+          <span class="wid-chip">US-GAAP</span>
+          <span class="wid-chip">China Local-GAAP</span>
+          <span class="wid-chip">SEC Filings</span>
+          <span class="wid-chip">Market Data</span>
+        </div>
+      </div>
+
+      <div class="wid-card">
+        <div class="wid-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Client Relations</h3>
+        <p>Primary liaison across clients, factories, and internal teams. I manage expectations, resolve issues proactively, and maintain the trust that keeps clients coming back.</p>
+        <div class="wid-chips">
+          <span class="wid-chip">CRM Management</span>
+          <span class="wid-chip">Issue Escalation</span>
+          <span class="wid-chip">Multi-channel Comms</span>
+          <span class="wid-chip">Retention</span>
+        </div>
+      </div>
+
+      <div class="wid-card">
+        <div class="wid-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Supply Chain & Logistics</h3>
+        <p>Production monitoring, shipping coordination, quality assurance, and delivery tracking across international supply chains — from manufacturing partner to end customer.</p>
+        <div class="wid-chips">
+          <span class="wid-chip">Production Monitoring</span>
+          <span class="wid-chip">Shipping Coordination</span>
+          <span class="wid-chip">Quality Control</span>
+          <span class="wid-chip">International Ops</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VIRTUAL ASSISTANT -->
+<section id="virtual-assistant">
+  <div class="section-inner">
+    <div class="section-hdr">
+      <div class="section-label">VA Services</div>
+      <h2>Virtual Assistant</h2>
+      <p class="section-sub">Remote-ready, self-directed, and built for the demands of fast-moving founders and lean teams.</p>
+    </div>
+    <div class="va-grid">
+      <div class="va-intro">
+        <p>
+          As a <strong>General Virtual Assistant</strong>, I bring more than administrative support — I bring operational intelligence. My background across e-commerce, project management, financial analysis, and client relations means I can plug into your workflow and add value from day one, without extensive hand-holding.
+        </p>
+        <p>
+          Whether you need someone to own your inbox, manage CRM records, coordinate suppliers, run your online shop, handle guest communications, or track project progress — I operate with <strong>full professional discretion</strong>, clear communication, and a bias for getting things done.
+        </p>
+        <p>
+          I have experience supporting clients across the <strong>US, Germany, Netherlands, and Australia</strong>, with a proven track record of maintaining 100% response rates, zero cancellations, and 4.9+ satisfaction scores.
+        </p>
+        <div class="va-badge">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Available for Remote Engagements
+        </div>
+      </div>
+      <div class="va-services">
+
+        <div class="va-item">
+          <div class="va-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <h4>Inbox & Email Management</h4>
+          <p>Monitoring, responding, prioritizing, and triaging emails across platforms with timely, professional follow-ups.</p>
+        </div>
+
+        <div class="va-item">
+          <div class="va-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+          </div>
+          <h4>CRM Data Management</h4>
+          <p>Maintaining, updating, and verifying client records to keep databases accurate, complete, and up to date.</p>
+        </div>
+
+        <div class="va-item">
+          <div class="va-item-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h4>Project Coordination</h4>
+          <p>Tracking progress, scheduling, following up with stakeholders, and ensuring tasks move without bottlenecks.</p>
+        </div>
+
+        <div class="va-item">
+          <div class="va-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </div>
+          <h4>E-Commerce Store Management</h4>
+          <p>Listings, order processing, customer queries, logistics tracking, and platform optimization.</p>
+        </div>
+
+        <div class="va-item">
+          <div class="va-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h4>STR / Airbnb Management</h4>
+          <p>Listing optimization, multi-channel booking management, guest communication, and review maintenance.</p>
+        </div>
+
+        <div class="va-item">
+          <div class="va-item-icon">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+          </div>
+          <h4>Reporting & Data Entry</h4>
+          <p>Excel-based reports, performance dashboards, KPI tracking, and structured data input from multiple sources.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS & SOFTWARE -->
+<section id="tools" class="alt-bg">
+  <div class="section-inner">
+    <div class="section-hdr">
+      <div class="section-label">Tech Stack</div>
+      <h2>Tools & Software</h2>
+      <p class="section-sub">Platforms and tools I use daily to manage projects, communicate with clients, and keep operations running.</p>
+    </div>
+    <div class="tools-cats">
+
+      <div>
+        <div class="tool-cat-label">Project & Task Management</div>
+        <div class="tool-chips">
+          <span class="tool-chip"><span class="dot"></span>Trello</span>
+          <span class="tool-chip"><span class="dot"></span>Asana</span>
+          <span class="tool-chip"><span class="dot"></span>Notion</span>
+          <span class="tool-chip"><span class="dot"></span>Zendesk</span>
+          <span class="tool-chip"><span class="dot"></span>Lark</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="tool-cat-label">Communication & Collaboration</div>
+        <div class="tool-chips">
+          <span class="tool-chip"><span class="dot"></span>Slack</span>
+          <span class="tool-chip"><span class="dot"></span>Microsoft Teams</span>
+          <span class="tool-chip"><span class="dot"></span>Gmail / Google Workspace</span>
+          <span class="tool-chip"><span class="dot"></span>Zoom</span>
+          <span class="tool-chip"><span class="dot"></span>WhatsApp Business</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="tool-cat-label">E-Commerce & STR Platforms</div>
+        <div class="tool-chips">
+          <span class="tool-chip"><span class="dot"></span>Shopee Seller Center</span>
+          <span class="tool-chip"><span class="dot"></span>TikTok Shop Seller Center</span>
+          <span class="tool-chip"><span class="dot"></span>Lazada Seller Center</span>
+          <span class="tool-chip"><span class="dot"></span>EnStack</span>
+          <span class="tool-chip"><span class="dot"></span>BigSeller</span>
+          <span class="tool-chip"><span class="dot"></span>Airbnb Host Dashboard</span>
+          <span class="tool-chip"><span class="dot"></span>Booking.com Extranet</span>
+          <span class="tool-chip"><span class="dot"></span>Dibooq (Channel Manager)</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="tool-cat-label">CRM & Knowledge Management</div>
+        <div class="tool-chips">
+          <span class="tool-chip"><span class="dot"></span>HubSpot CRM</span>
+          <span class="tool-chip"><span class="dot"></span>Guru (Knowledge Base)</span>
+          <span class="tool-chip"><span class="dot"></span>Airtable</span>
+          <span class="tool-chip"><span class="dot"></span>Zendesk</span>
+          <span class="tool-chip"><span class="dot"></span>CIN7</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="tool-cat-label">Data, Reporting & Productivity</div>
+        <div class="tool-chips">
+          <span class="tool-chip"><span class="dot"></span>Microsoft Excel</span>
+          <span class="tool-chip"><span class="dot"></span>Google Sheets</span>
+          <span class="tool-chip"><span class="dot"></span>Google Docs / Drive</span>
+          <span class="tool-chip"><span class="dot"></span>Google Workspace</span>
+          <span class="tool-chip"><span class="dot"></span>Microsoft Office Suite</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="tool-cat-label">Finance</div>
+        <div class="tool-chips">
+          <span class="tool-chip"><span class="dot"></span>FactSet Platform</span>
+          <span class="tool-chip"><span class="dot"></span>FactSet Research Terminal</span>
+          <span class="tool-chip"><span class="dot"></span>SEC EDGAR</span>
+          <span class="tool-chip"><span class="dot"></span>NASDAQ Disclosures</span>
+          <span class="tool-chip"><span class="dot"></span>OTC Markets Platform</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-hdr">
+      <div class="section-label">About</div>
+      <h2>Background & Skills</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          My career sits at the intersection of <strong>financial analysis, operations, and digital commerce</strong> — three domains that, together, give me a uniquely complete picture of how businesses create and protect value.
+        </p>
+        <p>
+          Seven years as an Equity Research Analyst at FactSet trained me to work with precision under rigorous data standards, interpret financial disclosures at depth, and surface the signals that drive real commercial decisions. That analytical discipline now shapes how I build pricing frameworks, evaluate margins, and manage project risk.
+        </p>
+        <p>
+          Running my own e-commerce business across Shopee and TikTok Shop proved I could own the full customer and operational lifecycle. Today, as Project Manager at Paking Duck, I bring that end-to-end ownership to international packaging clients across different countries.
+        </p>
+        <ul class="contact-list">
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.29h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            0906 764 1886
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            frialde.nancy@gmail.com
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Pasig City, Metro Manila, Philippines
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            linkedin.com/in/nancyfrialde
+          </li>
+        </ul>
+      </div>
+      <div class="skills-panel">
+        <h3>Core Competencies</h3>
+        <hr class="divider" />
+        <div class="skill-grid">
+          <span class="skill-chip hi">Project Lifecycle Management</span>
+          <span class="skill-chip hi">Pricing & Margin Analysis</span>
+          <span class="skill-chip hi">Client Relationship Management</span>
+          <span class="skill-chip">Financial Data Analysis</span>
+          <span class="skill-chip">Supply Chain Coordination</span>
+          <span class="skill-chip">E-Commerce Operations</span>
+          <span class="skill-chip">Stakeholder Communication</span>
+          <span class="skill-chip">CRM Systems</span>
+          <span class="skill-chip">Order Fulfillment</span>
+          <span class="skill-chip">Quality Assurance</span>
+          <span class="skill-chip">Cross-Functional Collaboration</span>
+          <span class="skill-chip">Process Documentation</span>
+          <span class="skill-chip">MS Excel / Data Reporting</span>
+          <span class="skill-chip">Vendor Negotiation</span>
+          <span class="skill-chip">US-GAAP & China GAAP</span>
+          <span class="skill-chip">STR / Airbnb Operations</span>
+        </div>
+        <hr class="divider" />
+        <h3>Languages</h3>
+        <div class="skill-grid" style="margin-top:0.7rem;">
+          <span class="skill-chip hi">English — C2 Proficient</span>
+          <span class="skill-chip">Filipino — Native</span>
+          <span class="skill-chip">Japanese — Elementary</span>
+          <span class="skill-chip">Chinese — In Progress</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="alt-bg">
+  <div class="section-inner">
+    <div class="section-hdr">
+      <div class="section-label">Career History</div>
+      <h2>Work Experience</h2>
+      <p class="section-sub">A decade of progressive roles across operations, finance, e-commerce, and virtual assistance.</p>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2"/></svg>
+        </div>
+        <div class="tl-card">
+          <div class="tl-hdr">
+            <div><div class="tl-role">Project Manager</div><div class="tl-co">Paking Duck</div></div>
+            <span class="tl-date">Sept 2025 — Present</span>
+          </div>
+          <div class="tl-desc">
+            End-to-end ownership of international packaging project lifecycles. Primary liaison across clients, internal teams, and partner factories in the US, Germany, Netherlands, and Australia.
+            <ul>
+              <li>Drives client retention, margin optimization, and operational scalability.</li>
+              <li>Manages sample approvals, production monitoring, QA, and shipping coordination.</li>
+              <li>Prepares and tracks quotations while monitoring service margins for commercial viability.</li>
+              <li>Maintains performance dashboards and documentation to support data-driven decisions.</li>
+            </ul>
+          </div>
+          <div class="wins">
+            <div class="wins-lbl">Key Wins</div>
+            <div class="wins-list">
+              <span class="win">$13K Revenue · First 4 Months</span>
+              <span class="win">40 Global Clients</span>
+              <span class="win">4 Countries Served</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="tl-card">
+          <div class="tl-hdr">
+            <div><div class="tl-role">Project Based Team Support Specialist</div><div class="tl-co">Benchmark Insurance Group</div></div>
+            <span class="tl-date">July 2025 — March 2026</span>
+          </div>
+          <div class="tl-desc">
+            Administrative and backend support for a US-based insurance firm. Maintained CRM records, monitored client communications, coordinated project tracking, and handled confidential data with full discretion.
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        </div>
+        <div class="tl-card">
+          <div class="tl-hdr">
+            <div><div class="tl-role">Operations & Pricing Associate</div><div class="tl-co">Noissue Philippines</div></div>
+            <span class="tl-date">March 2024 — Aug 2025</span>
+          </div>
+          <div class="tl-desc">
+            Managed quoting, order execution, and supplier negotiation for a sustainable packaging company. Acted as key client contact for pricing, product availability, and order status. Documented processes in Guru to improve cross-team alignment.
+            <ul>
+              <li>Prioritized and responded accurately to high-volume client quotation requests.</li>
+              <li>Negotiated supplier pricing and confirmed inventory availability.</li>
+              <li>Gathered freight and product data to inform competitive pricing decisions.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="tl-card">
+          <div class="tl-hdr">
+            <div><div class="tl-role">STR Virtual Assistant</div><div class="tl-co">EscapeStay PH</div></div>
+            <span class="tl-date">July 2023 — Sept 2024</span>
+          </div>
+          <div class="tl-desc">
+            Managed Airbnb and Booking.com listings via Dibooq. Oversaw guest communications end-to-end, tracked revenue and occupancy in Excel, and maintained Superhost status through consistently high service delivery.
+          </div>
+          <div class="wins">
+            <div class="wins-lbl">Key Wins</div>
+            <div class="wins-list">
+              <span class="win">Superhost · 4 Consecutive Quarters</span>
+              <span class="win">4.9/5 Guest Rating</span>
+              <span class="win">100% Response Rate</span>
+              <span class="win">0% Host Cancellations</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <div class="tl-card">
+          <div class="tl-hdr">
+            <div><div class="tl-role">E-Commerce Business Owner</div><div class="tl-co">Trend.In.Ph Cosmetics & Skin Care</div></div>
+            <span class="tl-date">June 2020 — Dec 2024</span>
+          </div>
+          <div class="tl-desc">
+            Founded and scaled a cosmetics and skincare trading business across Shopee and TikTok Shop. Owned product listing, merchandising, fulfillment, logistics, customer support, and brand partnerships — managing 30 local brands and 150+ products nationwide.
+          </div>
+          <div class="wins">
+            <div class="wins-lbl">Key Wins</div>
+            <div class="wins-list">
+              <span class="win">55K Shopee Followers · 5★</span>
+              <span class="win">Preferred Seller · 2 Years</span>
+              <span class="win">TikTok Top 3% of Sellers</span>
+              <span class="win">Distributor of the Year 2022 · Dear Face PH</span>
+              <span class="win">Top Provincial Distributor · Strip It (2020–)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div class="tl-card">
+          <div class="tl-hdr">
+            <div><div class="tl-role">Equity Research Analyst</div><div class="tl-co">FactSet Philippines Inc.</div></div>
+            <span class="tl-date">May 2016 — May 2023</span>
+          </div>
+          <div class="tl-desc">
+            Seven years of rigorous financial data analysis. Specialized in US-GAAP and China Local-GAAP financial statements for commercial and banking sector profiles. Verified data integrity against SEC filings, NASDAQ disclosures, and OTC markets. Mentored new hires; supported global infrastructure projects.
+          </div>
+          <div class="wins">
+            <div class="wins-lbl">Key Wins</div>
+            <div class="wins-list">
+              <span class="win">Top Accuracy · 2017, 2019, 2021</span>
+              <span class="win">Cyborg App Pilot Tester</span>
+              <span class="win">2021 Outstanding CSR Volunteer</span>
+              <span class="win">Global Banks Normalized Project</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-inner">
+    <div class="section-hdr">
+      <div class="section-label">Credentials</div>
+      <h2>Certifications</h2>
+      <p class="section-sub">Click any certificate to view the full image.</p>
+    </div>
+    <div class="cert-grid">
+
+      <div class="cert-card" onclick="openLb('images/cert-efset.jpg')">
+        <div class="cert-img-wrap">
+          <img src="images/cert-efset.jpg" alt="EFSET C2 Certificate"
+            onerror="this.parentElement.innerHTML='<div class=\'cert-placeholder\'><svg viewBox=\'0 0 24 24\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'/><polyline points=\'14 2 14 8 20 8\'/></svg><span>Image coming soon</span></div>'" />
+        </div>
+        <div class="cert-info">
+          <div class="cert-org">EF Education First</div>
+          <div class="cert-name">C2 Proficient — EF Standard English Test (EFSET)</div>
+        </div>
+      </div>
+
+      <div class="cert-card" onclick="openLb('images/cert-smalltalk.jpg')">
+        <div class="cert-img-wrap">
+          <img src="images/cert-smalltalk.jpg" alt="SmallTalk2Me Certificate"
+            onerror="this.parentElement.innerHTML='<div class=\'cert-placeholder\'><svg viewBox=\'0 0 24 24\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'/><polyline points=\'14 2 14 8 20 8\'/></svg><span>Image coming soon</span></div>'" />
+        </div>
+        <div class="cert-info">
+          <div class="cert-org">SmallTalk2Me</div>
+          <div class="cert-name">C1+ Advanced Proficiency English Speaking Level Test</div>
+        </div>
+      </div>
+
+      <div class="cert-card" onclick="openLb('images/cert-japanese.jpg')">
+        <div class="cert-img-wrap">
+          <img src="images/cert-japanese.jpg" alt="Japanese Language Certificate"
+            onerror="this.parentElement.innerHTML='<div class=\'cert-placeholder\'><svg viewBox=\'0 0 24 24\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'/><polyline points=\'14 2 14 8 20 8\'/></svg><span>Image coming soon</span></div>'" />
+        </div>
+        <div class="cert-info">
+          <div class="cert-org">National Language Skills Center</div>
+          <div class="cert-name">Certificate of Training: Basic Japanese Language and Culture</div>
+        </div>
+      </div>
+
+      <div class="cert-card" onclick="openLb('images/cert-alibaba.jpg')">
+        <div class="cert-img-wrap">
+          <img src="images/cert-alibaba.jpg" alt="Alibaba Netpreneur Certificate"
+            onerror="this.parentElement.innerHTML='<div class=\'cert-placeholder\'><svg viewBox=\'0 0 24 24\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'/><polyline points=\'14 2 14 8 20 8\'/></svg><span>Image coming soon</span></div>'" />
+        </div>
+        <div class="cert-info">
+          <div class="cert-org">Alibaba Business School</div>
+          <div class="cert-name">Alibaba Netpreneur Masterclass Certification</div>
+        </div>
+      </div>
+
+      <div class="cert-card" onclick="openLb('images/cert-costing.jpg')">
+        <div class="cert-img-wrap">
+          <img src="images/cert-costing.jpg" alt="Basic Costing and Pricing Certificate"
+            onerror="this.parentElement.innerHTML='<div class=\'cert-placeholder\'><svg viewBox=\'0 0 24 24\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'/><polyline points=\'14 2 14 8 20 8\'/></svg><span>Image coming soon</span></div>'" />
+        </div>
+        <div class="cert-info">
+          <div class="cert-org">Department of Trade and Industry</div>
+          <div class="cert-name">Basic Costing and Pricing</div>
+        </div>
+      </div>
+
+      <div class="cert-card" onclick="openLb('images/cert-ops-mgmt.jpg')">
+        <div class="cert-img-wrap">
+          <img src="images/cert-ops-mgmt.jpg" alt="Operations Management Certificate"
+            onerror="this.parentElement.innerHTML='<div class=\'cert-placeholder\'><svg viewBox=\'0 0 24 24\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'/><polyline points=\'14 2 14 8 20 8\'/></svg><span>Image coming soon</span></div>'" />
+        </div>
+        <div class="cert-info">
+          <div class="cert-org">Department of Trade and Industry</div>
+          <div class="cert-name">Operations Management, Giving Focus on Disruption Management</div>
+        </div>
+      </div>
+
+      <div class="cert-card" onclick="openLb('images/cert-ai-public.jpg')">
+        <div class="cert-img-wrap">
+          <img src="images/cert-ai-public.jpg" alt="AI for Better Public Service Certificate"
+            onerror="this.parentElement.innerHTML='<div class=\'cert-placeholder\'><svg viewBox=\'0 0 24 24\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'/><polyline points=\'14 2 14 8 20 8\'/></svg><span>Image coming soon</span></div>'" />
+        </div>
+        <div class="cert-info">
+          <div class="cert-org">Dept. of Communication & Information Technology</div>
+          <div class="cert-name">AI for Better Public Service</div>
+        </div>
+      </div>
+
+      <div class="cert-card" onclick="openLb('images/cert-civil-service.jpg')">
+        <div class="cert-img-wrap">
+          <img src="images/cert-civil-service.jpg" alt="Civil Service Examination Certificate"
+            onerror="this.parentElement.innerHTML='<div class=\'cert-placeholder\'><svg viewBox=\'0 0 24 24\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'/><polyline points=\'14 2 14 8 20 8\'/></svg><span>Image coming soon</span></div>'" />
+        </div>
+        <div class="cert-info">
+          <div class="cert-org">Civil Service Commission Philippines</div>
+          <div class="cert-name">Professional Level Passer — Civil Service Examination (April 2016)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="alt-bg">
+  <div class="section-inner" style="max-width:620px; text-align:center;">
+    <div class="section-label" style="justify-content:center;">Let's Connect</div>
+    <h2>Ready to Work Together?</h2>
+    <p class="section-sub" style="margin: 0.6rem auto 2rem;">
+      Whether you need a project manager, operations specialist, or a reliable remote professional — I'm open to new opportunities.
+    </p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="mailto:frialde.nancy@gmail.com" class="btn-primary">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        frialde.nancy@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/nancyfrialde" target="_blank" rel="noopener" class="btn-secondary">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        View LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-name">Nancy <span>Frialde</span></div>
+    <ul class="footer-links">
+      <li><a href="#what-i-do">What I Do</a></li>
+      <li><a href="#virtual-assistant">VA Services</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p class="footer-note">Project Management · E-Commerce · Supply Chain & Operations · Fintech · Virtual Assistance</p>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLb()">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <img src="" alt="Certificate" class="lightbox-img" id="lbImg" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+  // ── THEME ──
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+  const lbl = document.getElementById('themeLabel');
+
+  function setTheme(m) {
+    root.setAttribute('data-theme', m);
+    localStorage.setItem('theme', m);
+    if (m === 'dark') {
+      icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+      lbl.textContent = 'Light';
+    } else {
+      icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+      lbl.textContent = 'Dark';
+    }
+  }
+  const saved = localStorage.getItem('theme') ||
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  setTheme(saved);
+  btn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+  // ── LIGHTBOX ──
+  function openLb(src) {
+    document.getElementById('lbImg').src = src;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+
+  // ── SCROLL ANIMATIONS ──
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.tl-item, .wid-card, .cert-card, .va-item, .tool-chip, .stat-box, .stat-full')
+    .forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
